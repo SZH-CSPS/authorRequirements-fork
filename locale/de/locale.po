@@ -15,7 +15,7 @@ msgid "plugins.generic.authorRequirements.displayName"
 msgstr "QuickSubmit Autoreneinstellungen"
 
 msgid "plugins.generic.authorRequirements.description"
-msgstr "Mit diesem Plugin können die Felder für Autorenname und E-Mail optional gemacht werden. Verwendet in Verbindung mit dem QuickSubmit-Plugin."
+msgstr "Mit diesem Plugin können die Felder für Autorenname und E-Mail optional gemacht werden. Verwendet in Verbindung mit dem QuickSubmit-Plugin. WARNING This plugin as been patched by Robin Morand it is not the original one ! Don't update automaticaly"
 
 msgid "plugins.generic.authorRequirements.settings.title"
 msgstr "Optionale Felder"

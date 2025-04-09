@@ -15,7 +15,7 @@ msgid "plugins.generic.authorRequirements.displayName"
 msgstr "Paramètres d'auteur QuickSubmit"
 
 msgid "plugins.generic.authorRequirements.description"
-msgstr "Ce plugin permet de rendre facultatifs le nom de l'auteur et les champs d'adresse électronique. Utilisé en connexion avec le plugin QuickSubmit"
+msgstr "Ce plugin permet de rendre facultatifs le nom de l'auteur et les champs d'adresse électronique. Utilisé en connexion avec le plugin QuickSubmit. WARNING This plugin as been patched by Robin Morand it is not the original one ! Don't update automaticaly"
 
 msgid "plugins.generic.authorRequirements.settings.title"
 msgstr "Champs facultatifs"
