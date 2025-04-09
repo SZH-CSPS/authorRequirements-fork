@@ -23,6 +23,7 @@ use PKP\linkAction\LinkAction;
 use PKP\linkAction\request\AjaxModal;
 use PKP\plugins\GenericPlugin;
 use PKP\plugins\Hook;
+use APP\search\ArticleSearch;
 
 class AuthorRequirementsPlugin extends GenericPlugin
 {
@@ -62,6 +63,8 @@ class AuthorRequirementsPlugin extends GenericPlugin
                 Hook::add('Form::config::before', [$this, 'modifyContributorForm']);
                 Hook::add('Schema::get::author', [$this, 'modifyAuthorSchema']);
             }
+            // add selectable authors to form
+            HookRegistry::register('TemplateManager::fetch', array(&$this, 'overrideFormDisplay'));
         }
         return $success;
     }

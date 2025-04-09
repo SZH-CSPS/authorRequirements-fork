@@ -24,17 +24,66 @@
  *
  *   $emailNotRequired: Whenter or not email is a required field
  *}
+<script type = "text/javascript">  
+ function selectauthor() {  
+    var e = document.getElementById("szh_selector_authors");
+    var value = e.value.split("::"); // :: is used to separate given and family name... it's ugly but it's working ! 
+    form_givenname_fr = document.querySelector("[id^='givenName-fr']");
+    form_familyname_fr = document.querySelector("[id^='familyName-fr']");
+    form_givenname_de = document.querySelector("[id^='givenName-de']");
+    form_familyname_de = document.querySelector("[id^='familyName-de']");
+    form_email = document.querySelector("[id^='email-']");
+    form_affiliation_fr = document.querySelector("[id^='affiliation-fr']");
+    form_affiliation_de = document.querySelector("[id^='affiliation-de']");
+    form_country =  document.querySelector("[id^='country']");
+
+    form_givenname_fr.value = value[1];
+    form_familyname_fr.value = value[0];
+    form_givenname_de.value = value[1];
+    form_familyname_de.value = value[0];
+    form_email.value = value[2]
+    form_affiliation_fr.value = value[3]
+    form_affiliation_de.value = value[3]
+    form_country.value = value[4]
+    }  
+ </script>  
+<div class="pkp_helpers_clear">
+<hr>
+    <div class="section">
+    <label for="szh_author_selector">Choose an author:</label>
+        <div class="inline pkp_helpers_half">
+            <select onchange="selectauthor()" name="szh_authors" id="szh_selector_authors">
+            {iterate from=authors item=author}
+                {assign var=authorName value=$author->getFullName(false, true)}
+                {assign var=authorGivenName value=$author->getLocalizedGivenName()}
+                {assign var=authorFamilyName value=$author->getLocalizedFamilyName()}
+                {assign var=authorEmail value=$author->getEmail()}
+                {assign var=authorAffiliation value=$author->getLocalizedAffiliation()}
+                {assign var=authorCountry value=$author->getCountry()}
+                {strip}
+                    <option value="{$authorFamilyName}::
+                    {$authorGivenName}::
+                    {$authorEmail}::
+                    {$authorAffiliation}::
+                {$authorCountry}">{$authorName} ({if $authorEmail}{$authorEmail}{/if}{if $authorCountry}-{$authorCountry}{/if}{if $authorAffiliation}-{$authorAffiliation}{/if})</option>
+                {/strip}
+            {/iterate}
+            </select> 
+        </div>
+        <p><b>You can change informations below</b></p>
+        <hr>
+    </div>
+</div>
 
 {fbvFormArea id="userDetails"}
     {fbvFormSection title="user.name"}
         {fbvElement type="text" label="user.givenName" multilingual="true" name="givenName" id="givenName" value=$givenName maxlength="255" inline=true size=$fbvStyles.size.MEDIUM required="true"}
         {fbvElement type="text" label="user.familyName" multilingual="true" name="familyName" id="familyName" value=$familyName maxlength="255" inline=true size=$fbvStyles.size.MEDIUM}
     {/fbvFormSection}
-
+{*
     {fbvFormSection for="preferredPublicName" description="user.preferredPublicName.description"}
         {fbvElement type="text" label="user.preferredPublicName" multilingual="true" name="preferredPublicName" id="preferredPublicName" value=$preferredPublicName size=$fbvStyles.size.LARGE}
-    {/fbvFormSection}
-
+    {/fbvFormSection}*}
     {if !$disableUserNameSection}
         {if !$userId}{capture assign="usernameInstruction"}{translate key="user.register.usernameRestriction"}{/capture}{/if}
         {fbvFormSection for="username" description=$usernameInstruction translate=false}
@@ -96,7 +145,7 @@
         {assign var="countryRequired" value=false}
     {/if}
     {fbvFormSection for="country" title="common.country"}
-        {fbvElement type="select" label="common.country" name="country" id="country" required=$countryRequired defaultLabel="" defaultValue="" from=$countries selected=$country translate="0" size=$fbvStyles.size.MEDIUM}
+        {fbvElement type="select" label="common.country" name="country" id="country" required=$countryRequired defaultLabel="Suisse" defaultValue="CH" from=$countries selected=$country translate="0" size=$fbvStyles.size.MEDIUM}
     {/fbvFormSection}
 
     {if !$disableSendNotifySection}
@@ -113,13 +162,13 @@
 {call_hook name="Common::UserDetails::AdditionalItems"}
 {capture assign="extraContent"}
     {fbvFormArea id="userFormExtendedLeft"}
-        {fbvFormSection}
+        {*{fbvFormSection}
             {fbvElement type="text" label="user.url" name="userUrl" id="userUrl" value=$userUrl maxlength="255" inline=true size=$fbvStyles.size.SMALL}
             {if !$disablePhoneSection}
                 {fbvElement type="text" label="user.phone" name="phone" id="phone" value=$phone maxlength="24" inline=true size=$fbvStyles.size.SMALL}
             {/if}
             {fbvElement type="text" label="user.orcid" name="orcid" id="orcid" value=$orcid maxlength="37" inline=true size=$fbvStyles.size.SMALL}
-        {/fbvFormSection}
+        {/fbvFormSection}*}
 
         {if !$disableLocaleSection && count($availableLocales) > 1}
             {fbvFormSection title="user.workingLanguages" list=true}
@@ -143,11 +192,11 @@
         {fbvFormSection for="affiliation"}
             {fbvElement type="text" label="user.affiliation" multilingual="true" name="affiliation" id="affiliation" value=$affiliation inline=true size=$fbvStyles.size.LARGE}
         {/fbvFormSection}
-
+{*
         {fbvFormSection}
             {fbvElement type="textarea" label="user.biography" multilingual="true" name="biography" id="biography" rich=true value=$biography}
         {/fbvFormSection}
-
+*}
         {if !$disableMailingSection}
             {fbvFormSection}
                 {fbvElement type="textarea" label="common.mailingAddress" name="mailingAddress" id="mailingAddress" rich=true value=$mailingAddress}

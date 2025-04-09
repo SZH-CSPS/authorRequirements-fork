@@ -47,6 +47,7 @@
         extraContentSectionUnfolded=true
         countryRequired=true
         emailNotRequired=$emailNotRequired
+        authors=$authors
     }
 
     {fbvFormArea id="submissionSpecific"}
@@ -79,3 +80,19 @@
     <p><span class="formRequired">{translate key="common.requiredField"}</span></p>
     {fbvFormButtons id="step2Buttons" submitText="common.save"}
 </form>
+<script>
+var radio = document.querySelectorAll('#userGroupId input');
+checked = false;
+
+for (var i = 0; i < radio.length; i++) {
+    if (radio[i].checked) {
+        checked = true;
+        break;
+    }
+}
+
+if (!checked) {
+    radio[0].checked = true;
+    radio[0].click()
+}
+</script> 
