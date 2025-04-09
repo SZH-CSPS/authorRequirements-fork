@@ -68,6 +68,19 @@ class AuthorRequirementsPlugin extends GenericPlugin
         }
         return $success;
     }
+    public function overrideFormDisplay($hookname, $args) {
+        $templateMgr = $args[0];
+        $template = $args[1];
+        $authors = array();
+        $authorDao = DAORegistry::getDAO('AuthorDAO'); /* @var $authorDao AuthorDAO */
+        $authors = $authorDao->getAuthorsAlphabetizedByJournal();
+
+        if ($template !== 'controllers/grid/users/author/form/authorForm.tpl') {
+            return;
+        }
+
+        $templateMgr->assign('authors', $authors);
+    }
 
     /**
      * Make contributor email optional in ContributorForm
